@@ -9,5 +9,8 @@
     "test": "echo Test complete"
   },
   "author": "Jay Horsfall",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^8.11.0"
+  }
 }
