@@ -1,0 +1,13 @@
+{
+  "name": "locationapi",
+  "version": "0.0.1",
+  "description": "Basic location tracking server",
+  "main": "./src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "test": "echo Test complete"
+  },
+  "author": "Jay Horsfall",
+  "license": "UNLICENSED"
+}
