@@ -11,12 +11,12 @@ const uri = `mongodb+srv://${username}:${password}@${mongoRoute}`;
 
 
 
-export async function mongoWrite(){
+export async function mongoWrite(data){
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
     
-        await createTestData(client);
+        await createTestData(client, data);
     }
     catch (e) {
         console.log(e);
@@ -26,7 +26,8 @@ export async function mongoWrite(){
     }
 }
 
-async function createTestData(client){
-    const result = await client.db().collection("testing").insertOne({message:"Success!"});
-    console.log("Successful creation of test data. ");
+async function createTestData(client, data){
+    
+    const result = await client.db().collection("testing").insertOne(data);
+    
 }
