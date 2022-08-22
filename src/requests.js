@@ -4,15 +4,15 @@ import { assert } from 'console';
 
 const urlHandles = {
     GET: {
-      notFound: notFound,
+        notFound: notFound,
     },
     HEAD: {
-      notFound: notFound,
+        notFound: notFound,
     },
     POST: {
-      '/newLocationData': addLocationLog,
+        '/newLocationData': addLocationLog,
     },
-  };
+};
 
 export async function onRequest(req, res) {
     const parsedUrl = new url.URL(req.url, 'https://http-api-2-jayhors.herokuapp.com/');
@@ -48,22 +48,26 @@ async function addLocationLog(request, response) {
         buffers.push(chunk);
     });
     request.on('end', async () => {
-        data = Buffer.concat(buffers).toString();
-        let jsonData = await JSON.parse(data);
-        if (validateData(jsonData)) {
-            await mongo.mongoWrite(jsonData);
-            responseBuilder(request, response, { message: 'Location logged!' }, 201);
-        }else{
-            responseBuilder(request, response, { message: 'The request is missing required parameters.' }, 400);
+        try {
+            data = Buffer.concat(buffers).toString();
+            let jsonData = await JSON.parse(data);
+            if (validateData(jsonData)) {
+                await mongo.mongoWrite(jsonData);
+                responseBuilder(request, response, { message: 'Location logged!' }, 201);
+            } else {
+                responseBuilder(request, response, { message: 'The request is missing required parameters.' }, 400);
+            }
+        } catch (error) {
+            responseBuilder(request, response, { message: 'An error occurred. Is your data formatted correctly?' }, 500);
         }
-        
+
     });
-    
+
 }
 
-function validateData(json){
+function validateData(json) {
     console.log(json);
-    if(json.latitude && json.longitude && json.userId && json.timestamp){
+    if (json.latitude && json.longitude && json.userId && json.timestamp) {
         return true;
     }
     return false;

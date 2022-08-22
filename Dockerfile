@@ -1,8 +1,10 @@
 FROM node:alpine
 
-COPY . .
+COPY package.json package-lock.json ./
 
 RUN npm i
+
+COPY . .
 
 CMD npm start
 

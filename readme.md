@@ -14,6 +14,10 @@ This server uses MongoDB as a backend. Feel free to rewrite to use something els
 
 Once you have these three files in place, everything should be set with a run of `npm install`. `npm start` will start a local instance of the server.
 
+### Docker
+
+Docker support is currently experimental, but I have included the docker file I'm using. I'm still learning docker lol
+
 
 ## Usage
 
