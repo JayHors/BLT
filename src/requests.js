@@ -1,6 +1,5 @@
 import * as mongo from './mongo.js';
 import * as url from 'url';
-import { assert } from 'console';
 
 const urlHandles = {
     GET: {
