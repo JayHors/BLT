@@ -26,6 +26,32 @@ export async function mongoWrite(data){
     }
 }
 
+export async function mongoRead(field){
+    let results = [];
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+    try {
+        await client.connect();
+    
+        const resultCursor = await client.db().collection("testing").find(field);
+
+        if(resultCursor.count === 0){
+            return {"message":"No results found"};
+        }
+
+        resultCursor.forEach(results.push);
+
+        return results;
+    }
+    catch (e) {
+        console.log(e);
+    }
+    finally {
+        await client.close();
+    }
+    
+
+}
+
 async function createTestData(client, data){
     
     const result = await client.db().collection("testing").insertOne(data);

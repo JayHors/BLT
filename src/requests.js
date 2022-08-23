@@ -40,6 +40,24 @@ function isHead(request) {
     return (request.method === 'HEAD');
 }
 
+async function getLocationByUser(request, response) {
+    let buffers = [];
+    let data;
+    request.on('data', chunk => {
+        buffers.push(chunk);
+    });
+    request.on('end', async () => {
+        data = Buffer.concat(buffers).toString();
+        let jsonData = await JSON.parse(data);
+        if(!jsonData.userId){
+            responseBuilder(request, response, { message: 'You need to provide a user ID' }, 400);
+        }
+        else{
+            
+        }
+    });
+}
+
 async function addLocationLog(request, response) {
     let buffers = [];
     let data;
@@ -50,7 +68,7 @@ async function addLocationLog(request, response) {
         try {
             data = Buffer.concat(buffers).toString();
             let jsonData = await JSON.parse(data);
-            if (validateData(jsonData)) {
+            if (validateRecievedData(jsonData)) {
                 await mongo.mongoWrite(jsonData);
                 responseBuilder(request, response, { message: 'Location logged!' }, 201);
             } else {
@@ -64,7 +82,7 @@ async function addLocationLog(request, response) {
 
 }
 
-function validateData(json) {
+function validateRecievedData(json) {
     console.log(json);
     if (json.latitude && json.longitude && json.userId && json.timestamp) {
         return true;
